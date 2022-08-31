@@ -1,0 +1,17 @@
+
+Package: dischargecriteria
+Title: Identify patients who do not meet criteria to reside
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Mike", "Page", email = "mpage@redcross.org.uk", role = "cre"),
+    person(family = "British Red Cross", role = "cph")
+    )
+Description: Shiny app to identify trusts with a high percentage of patients who
+    do not meet criteria to reside.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)
+LazyData: true
