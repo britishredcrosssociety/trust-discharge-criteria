@@ -4,7 +4,6 @@ library(lubridate)
 library(healthyr)
 library(geographr)
 library(sf)
-library(hrbrthemes)
 
 # ---- Trust names ----
 trust_names <-
