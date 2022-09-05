@@ -47,6 +47,7 @@ criteria_to_reside <-
   relocate(nhs_trust22_name) |>
   group_by(nhs_trust22_code) |>
   mutate(mean_perc_not_meet_criteria = mean(perc_not_meet_criteria)) |>
+  mutate(mean_perc_not_meet_criteria = as.character((round(mean_perc_not_meet_criteria * 100, 1)))) |>
   ungroup()
 
 usethis::use_data(criteria_to_reside, overwrite = TRUE)
