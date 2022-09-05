@@ -1,6 +1,7 @@
 plotUI <- function(id) {
   plotOutput(
-    NS(id, "plot")
+    NS(id, "plot"),
+    width = "90%"
   )
 }
 
