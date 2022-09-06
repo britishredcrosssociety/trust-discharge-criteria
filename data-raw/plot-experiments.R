@@ -16,7 +16,7 @@ label_mean_group <-
 
 value_mean_clicked <-
   criteria_to_reside |>
-  filter(nhs_trust22_code == "RMP") |>
+  filter(nhs_trust22_code == "R0B") |>
   slice(1) |>
   pull(mean_perc_not_meet_criteria)
 
@@ -25,13 +25,13 @@ label_mean_clicked <-
 
 label_clicked_trust <-
   criteria_to_reside |>
-  filter(nhs_trust22_code == "RMP") |>
+  filter(nhs_trust22_code == "R0B") |>
   slice(1) |>
   pull(nhs_trust22_name)
 
 y_upper_limit <-
   criteria_to_reside |>
-  filter(nhs_trust22_code == "RMP") |>
+  filter(nhs_trust22_code == "R0B") |>
   filter(perc_not_meet_criteria == max(perc_not_meet_criteria)) |>
   mutate(y_limit = if_else(perc_not_meet_criteria < .45, .45, perc_not_meet_criteria)) |>
   slice(1) |>
@@ -40,8 +40,8 @@ y_upper_limit <-
 # ---- Plot ----
 criteria_to_reside |>
   mutate(
-    colour = if_else(nhs_trust22_code == "RMP", "#D0021B", "#BBBBBB"),
-    alpha = if_else(nhs_trust22_code == "RMP", 1, 0.1),
+    colour = if_else(nhs_trust22_code == "R0B", "#D0021B", "#BBBBBB"),
+    alpha = if_else(nhs_trust22_code == "R0B", 1, 0.1),
   ) |>
   ggplot(
     aes(
