@@ -7,7 +7,7 @@ library(ggtext)
 library(glue)
 
 # ---- App function ----
-app <- function() {
+criteria <- function() {
 
   # ---- UI ----
   ui <- bootstrapPage(
