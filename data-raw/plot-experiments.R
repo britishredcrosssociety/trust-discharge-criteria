@@ -5,6 +5,7 @@ library(ggtext)
 
 pkgload::load_all(".")
 
+# ---- Set dynamic values ----
 value_mean_group <-
   criteria_to_reside |>
   summarise(mean = mean(perc_not_meet_criteria)) |>
@@ -15,7 +16,7 @@ label_mean_group <-
 
 value_mean_clicked <-
   criteria_to_reside |>
-  filter(nhs_trust22_code == "R0B") |>
+  filter(nhs_trust22_code == "RMP") |>
   slice(1) |>
   pull(mean_perc_not_meet_criteria)
 
@@ -24,23 +25,29 @@ label_mean_clicked <-
 
 label_clicked_trust <-
   criteria_to_reside |>
-  filter(nhs_trust22_code == "R0B") |>
+  filter(nhs_trust22_code == "RMP") |>
   slice(1) |>
   pull(nhs_trust22_name)
 
+y_upper_limit <-
+  criteria_to_reside |>
+  filter(nhs_trust22_code == "RMP") |>
+  filter(perc_not_meet_criteria == max(perc_not_meet_criteria)) |>
+  mutate(y_limit = if_else(perc_not_meet_criteria < .45, .45, perc_not_meet_criteria)) |>
+  slice(1) |>
+  pull(y_limit)
+
+# ---- Plot ----
 criteria_to_reside |>
-  filter(perc_not_meet_criteria < .45) |>
-  mutate(label = if_else(nhs_trust22_code == "R0B", nhs_trust22_name, NA_character_)) |>
   mutate(
-    colour = if_else(nhs_trust22_code == "R0B", "#D0021B", "#BBBBBB"),
-    alpha = if_else(nhs_trust22_code == "R0B", 1, 0.1),
+    colour = if_else(nhs_trust22_code == "RMP", "#D0021B", "#BBBBBB"),
+    alpha = if_else(nhs_trust22_code == "RMP", 1, 0.1),
   ) |>
   ggplot(
     aes(
       x = date,
       y = perc_not_meet_criteria,
       group = nhs_trust22_code,
-      label = label
     )
   ) +
   geom_line(
@@ -63,6 +70,7 @@ criteria_to_reside |>
   ) +
   scale_colour_manual(values = c("#BBBBBB", "#D0021B")) +
   scale_y_continuous(labels = scales::percent) +
+  coord_cartesian(ylim = c(0, y_upper_limit)) +
   theme(
     panel.background = element_rect(fill = "transparent"),
     plot.background = element_rect(fill = "transparent", color = NA),
