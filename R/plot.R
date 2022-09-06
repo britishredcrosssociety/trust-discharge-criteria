@@ -44,3 +44,17 @@ plotServer <- function(id, clicked) {
     )
   })
 }
+
+plotTest <- function() {
+  ui <- fluidPage(
+    plotUI("test")
+  )
+
+  server <- function(input, output, session) {
+    clicked <- reactiveVal()
+
+    plotServer("test", clicked)
+  }
+
+  shinyApp(ui, server)
+}
