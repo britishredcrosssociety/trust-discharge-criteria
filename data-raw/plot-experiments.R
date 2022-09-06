@@ -1,6 +1,7 @@
 library(tidyverse)
 library(glue)
 library(geomtextpath)
+library(ggtext)
 
 pkgload::load_all(".")
 
@@ -66,8 +67,13 @@ criteria_to_reside |>
     panel.background = element_rect(fill = "transparent"),
     plot.background = element_rect(fill = "transparent", color = NA),
     panel.grid.major = element_blank(),
+    plot.title = element_markdown(family = "Oswald")
   ) +
-  labs(x = NULL, y = NULL, title = glue("Selected trust: {label_clicked_trust}"))
-
+  labs(
+    x = NULL,
+    y = NULL,
+    title = glue("<span style = 'font-family: Oswald, sans-serif;'>Showing data for:</span>
+<span style = 'font-family: Oswald, sans-serif; color:#D0021B;'>{label_clicked_trust}</span>")
+  )
 # TODO:
 # - Add coloured and bold titled with ggtext.
