@@ -5,6 +5,7 @@ library(leaflet)
 library(dplyr)
 library(ggtext)
 library(glue)
+library(sf)
 
 # ---- App function ----
 criteria <- function() {
@@ -35,7 +36,6 @@ criteria <- function() {
         tags$a(href = "https://www.england.nhs.uk/statistics/statistical-work-areas/", target = "_blank", "NHS"),
         "discharge and beds data."
       ),
-      tags$p(),
       plotUI("plot")
     )
   )
