@@ -8,6 +8,15 @@ mapUI <- function(id) {
 
 mapServer <- function(id, clicked) {
   moduleServer(id, function(input, output, session) {
+
+    # Identify worse performing trusts to assign marker colours
+    worst_performers <-
+      criteria_to_reside |>
+      distinct(nhs_trust22_code, mean_perc_not_meet_criteria) |>
+      arrange(desc(mean_perc_not_meet_criteria)) |>
+      slice_head(prop = .1) |>
+      pull(nhs_trust22_code)
+
     output$map <-
       renderLeaflet({
         leaflet(options = leafletOptions(zoomControl = FALSE)) |>
@@ -23,7 +32,19 @@ mapServer <- function(id, clicked) {
              }"
           ) |>
           addAwesomeMarkers(
-            data = points_nhs_trusts22,
+            data = points_nhs_trusts22 |> filter(nhs_trust22_code %in% worst_performers),
+            layerId = ~nhs_trust22_code,
+            popup = ~nhs_trust22_name,
+            label = ~nhs_trust22_name,
+            icon = awesomeIcons(
+              icon = "hospital-o",
+              library = "fa",
+              markerColor = "black",
+              iconColor = "#FFFFFF"
+            )
+          ) |> 
+          addAwesomeMarkers(
+            data = points_nhs_trusts22 |> filter(!(nhs_trust22_code %in% worst_performers)),
             layerId = ~nhs_trust22_code,
             popup = ~nhs_trust22_name,
             label = ~nhs_trust22_name,
@@ -51,7 +72,6 @@ mapTest <- function() {
     mapUI("test")
   )
   server <- function(input, output, session) {
-
     clicked <- reactiveVal()
 
     mapServer("test", clicked)
