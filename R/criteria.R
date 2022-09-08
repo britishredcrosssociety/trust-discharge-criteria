@@ -30,7 +30,7 @@ criteria <- function() {
     absolutePanel(
       top = 10, left = 20, style = "z-index:500; text-align: left;",
       tags$h1("Patients Not Meeting Criteria to Reside"),
-      tags$h4("Click on an NHS Trust to update the plot."),
+      tags$h4("Click on a Trust to update the plot. Black markers show the 10% worst performing trusts by mean score."),
       tags$p(
         "British Red Cross analysis of ",
         tags$a(href = "https://www.england.nhs.uk/statistics/statistical-work-areas/", target = "_blank", "NHS"),
