@@ -33,7 +33,7 @@ available_beds <-
 
 # Divide criteria to reside by bed availability, matching by month
 criteria_to_reside <-
-  nhs_discharge_criteria_22 |>
+  nhs_criteria_to_reside_22 |>
   mutate(
     month = str_c(
       as.character(month(date, label = TRUE, abbr = FALSE)),
