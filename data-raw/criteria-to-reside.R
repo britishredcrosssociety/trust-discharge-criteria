@@ -47,6 +47,13 @@ criteria_to_reside <-
   relocate(nhs_trust22_name) |>
   group_by(nhs_trust22_code) |>
   mutate(mean_perc_not_meet_criteria = mean(perc_not_meet_criteria)) |>
+  mutate(
+    moving_average_monthly = slider::slide_index_mean(
+      perc_not_meet_criteria,
+      i = date,
+      before = 31
+    )
+  ) |>
   ungroup()
 
 usethis::use_data(criteria_to_reside, overwrite = TRUE)
