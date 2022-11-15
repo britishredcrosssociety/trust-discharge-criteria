@@ -14,8 +14,8 @@ plotServer <- function(id, clicked) {
         # Render a blank plot upon loading the app
         if (is.null(clicked())) {
           criteria_to_reside |>
-            filter(perc_not_meet_criteria < .45) |>
-            ggplot(aes(x = date, y = perc_not_meet_criteria, group = nhs_trust22_code)) +
+            filter(moving_average < .4) |>
+            ggplot(aes(x = date, y = moving_average, group = nhs_trust22_code)) +
             geom_line(alpha = 0.1, colour = "#BBBBBB", show.legend = FALSE) +
             scale_y_continuous(labels = scales::percent) +
             theme(
@@ -52,8 +52,8 @@ plotServer <- function(id, clicked) {
           y_upper_limit <-
             criteria_to_reside |>
             filter(nhs_trust22_code == clicked()) |>
-            filter(perc_not_meet_criteria == max(perc_not_meet_criteria)) |>
-            mutate(y_limit = if_else(perc_not_meet_criteria < .45, .45, perc_not_meet_criteria)) |>
+            filter(moving_average == max(moving_average)) |>
+            mutate(y_limit = if_else(moving_average < .4, .4, moving_average)) |>
             slice(1) |>
             pull(y_limit)
 
@@ -66,7 +66,7 @@ plotServer <- function(id, clicked) {
             ggplot(
               aes(
                 x = date,
-                y = perc_not_meet_criteria,
+                y = moving_average,
                 group = nhs_trust22_code,
               )
             ) +
@@ -97,7 +97,7 @@ plotServer <- function(id, clicked) {
             labs(
               x = NULL,
               y = NULL,
-              title = glue("<span style = 'font-size:16pt; color:#5C747A;'> Dotted lines show mean values</span><br>
+              title = glue("<span style = 'font-size:16pt; color:#5C747A;'>Solid red line shows 3-week moving average. Dotted lines show mean values.</span><br>
                             <span style = 'font-size:12pt; color:#2B7586;'>Mean of all trusts: {label_mean_group}%</span><br>
                             <span style = 'font-size:12pt; color:#D0021B;'>Mean of {label_clicked_trust}: {label_mean_clicked}%</span><br>")
             )

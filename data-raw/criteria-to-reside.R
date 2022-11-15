@@ -31,7 +31,8 @@ available_beds <-
   mutate(available_beds = general_acute_beds_availabile + adult_critical_care_beds_available) |>
   select(nhs_trust22_code, month = date, available_beds)
 
-# Divide criteria to reside by bed availability, matching by month
+# Divide criteria to reside by bed availability, matching by month and then
+# calculate a 3-week moving average
 criteria_to_reside <-
   nhs_criteria_to_reside_22 |>
   mutate(
@@ -48,10 +49,10 @@ criteria_to_reside <-
   group_by(nhs_trust22_code) |>
   mutate(mean_perc_not_meet_criteria = mean(perc_not_meet_criteria)) |>
   mutate(
-    moving_average_monthly = slider::slide_index_mean(
+    moving_average = slider::slide_index_mean(
       perc_not_meet_criteria,
       i = date,
-      before = 31
+      before = 21
     )
   ) |>
   ungroup()
