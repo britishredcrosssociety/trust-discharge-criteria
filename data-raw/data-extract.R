@@ -27,4 +27,4 @@ criteria_by_region <- criteria_to_reside_mean |>
   arrange(desc(`% not meeting criteria to reside (Apr-Oct)`), .by_group = TRUE) |>
   ungroup()
 
-write_csv(criteria_by_region, "data-raw/criteria-by-region.csv")
+write_csv(criteria_by_region, "data-raw/data-extract.csv")
