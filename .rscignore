@@ -1,2 +1,4 @@
 data-raw/criteria-to-reside.R
 data-raw/trusts.R
+data-raw/data-extract.R
+data-raw/criteria-by-region.csv
