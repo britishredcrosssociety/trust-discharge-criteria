@@ -21,20 +21,20 @@ trust_names <-
 
 # Match available bed numbers to requirements above (18+ including critical)
 available_beds <-
-  nhs_critical_general_acute_beds_22 |>
+  england_critical_general_acute_beds |>
   select(
     nhs_trust22_code,
     date,
-    general_acute_beds_availabile,
+    general_acute_beds_available,
     adult_critical_care_beds_available
   ) |>
-  mutate(available_beds = general_acute_beds_availabile + adult_critical_care_beds_available) |>
+  mutate(available_beds = general_acute_beds_available + adult_critical_care_beds_available) |>
   select(nhs_trust22_code, month = date, available_beds)
 
 # Divide criteria to reside by bed availability, matching by month and then
 # calculate a 3-week moving average
 criteria_to_reside <-
-  nhs_criteria_to_reside_22 |>
+  england_criteria_to_reside |>
   mutate(
     month = str_c(
       as.character(month(date, label = TRUE, abbr = FALSE)),
